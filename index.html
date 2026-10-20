@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#080808">
+<title>NIPEX VIP</title>
+
+<style>
+:root {
+    --gold: #f5c451;
+    --gold-light: #ffe6a0;
+    --gold-dark: #b88624;
+    --bg: #080808;
+    --panel: #111111;
+    --muted: #929292;
+    --border: #302819;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 50% 0%, rgba(245,196,81,.10), transparent 45%),
+        var(--bg);
+    color: #fff;
+    display: flex;
+    justify-content: center;
+    min-height: 100dvh;
+    overflow: hidden;
+}
+
+button, input {
+    font-family: inherit;
+}
+
+.app-container {
+    width: 100%;
+    max-width: 420px;
+    height: 100dvh;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.view {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+}
+
+.view.active {
+    display: flex;
+    animation: fadeIn .25s ease both;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* LOGIN SCREEN */
+
+#loginView {
+    justify-content: space-between;
+    padding: 5vh 0 3vh;
+    gap: 20px;
+}
+
+.login-logo {
+    width: 100%;
+    max-width: 300px;
+    height: auto;
+    flex-shrink: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    text-align: center;
+    overflow: hidden;
+}
+
+.login-logo img {
+    display: block;
+    width: 100%;
+    max-width: 260px;
+    height: 220px;
+    object-fit: contain;
+    object-position: center;
+    flex-shrink: 0;
+    filter: drop-shadow(0 0 18px rgba(245,196,81,.16));
+}
+
+.subtitle {
+    width: 100%;
+    margin: 16px auto 0;
+    color: var(--gold);
+    font-size: .68rem;
+    font-weight: 800;
+    letter-spacing: 1.8px;
+    line-height: 1.7;
+    text-align: center;
+    text-transform: uppercase;
+    overflow-wrap: anywhere;
+}
+
+.login-form {
+    width: 100%;
+    flex-shrink: 0;
+}
+
+.input-label {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: 12px;
+    color: var(--muted);
+    font-size: .68rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.input-label::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    flex-shrink: 0;
+    background: var(--gold);
+    box-shadow: 0 0 9px rgba(245,196,81,.45);
+}
+
+.input-group {
+    display: flex;
+    width: 100%;
+    margin-bottom: 15px;
+    background: linear-gradient(145deg, #151515, #0d0d0d);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    transition: border-color .2s, box-shadow .2s;
+}
+
+.input-group:focus-within {
+    border-color: var(--gold-dark);
+    box-shadow: 0 0 0 3px rgba(245,196,81,.06);
+}
+
+.input-group input {
+    width: 100%;
+    min-width: 0;
+    padding: 19px 15px;
+    background: transparent;
+    border: none;
+    outline: none;
+    color: #fff;
+    font-size: .9rem;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.input-group input::placeholder {
+    color: #555;
+}
+
+.btn-unlock {
+    width: 100%;
+    min-height: 54px;
+    padding: 16px;
+    margin-bottom: 16px;
+    border: 1px solid rgba(255,230,160,.7);
+    border-radius: 10px;
+    background: linear-gradient(105deg, #b88624, #f5c451 52%, #ffe6a0);
+    color: #171006;
+    font-size: .9rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+    cursor: pointer;
+    box-shadow: 0 5px 22px rgba(245,196,81,.12);
+    transition: transform .15s, filter .15s;
+}
+
+.btn-unlock:active {
+    transform: scale(.985);
+    filter: brightness(.9);
+}
+
+.btn-unlock:disabled {
+    opacity: .7;
+}
+
+.free-key-btn {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+    padding: 14px;
+    border: 1px solid rgba(245,196,81,.55);
+    border-radius: 10px;
+    background: rgba(245,196,81,.035);
+    color: var(--gold-light);
+    font-size: .78rem;
+    font-weight: 900;
+    letter-spacing: 1.8px;
+    text-decoration: none;
+    transition: background .2s;
+}
+
+.free-key-btn:active {
+    background: rgba(245,196,81,.12);
+}
+
+/* SETUP VIDEO TELEGRAM BUTTON */
+.setup-video-btn {
+    width: 100%;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    padding: 14px 12px;
+    border: 1px solid rgba(106,141,255,.85);
+    border-radius: 10px;
+    background: linear-gradient(135deg, #287bff, #8138ff);
+    color: #fff;
+    font-size: .76rem;
+    font-weight: 900;
+    letter-spacing: 1.2px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: 0 4px 14px rgba(90,80,255,.25);
+    transition: transform .15s, filter .15s;
+}
+
+.setup-video-btn:active {
+    transform: scale(.985);
+    filter: brightness(.9);
+}
+
+.error-msg {
+    display: none;
+    margin-bottom: 10px;
+    color: #ff7777;
+    font-size: .7rem;
+    font-weight: 700;
+    text-align: center;
+}
+
+.error-msg.show {
+    display: block;
+}
+
+.footer-text {
+    margin-top: 17px;
+    color: #999;
+    font-size: .75rem;
+    font-weight: 600;
+    line-height: 1.8;
+    text-align: center;
+}
+
+.footer-text span {
+    display: block;
+    margin-top: 5px;
+    color: #555;
+    font-size: .65rem;
+}
+
+/* DASHBOARD HEADER */
+
+.top-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 15px;
+    flex-shrink: 0;
+}
+
+.status {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    color: #6ce6a0;
+    font-size: .65rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+.status .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #6ce6a0;
+    box-shadow: 0 0 8px #6ce6a0;
+}
+
+.top-brand {
+    color: #fff;
+    font-size: .95rem;
+    font-weight: 900;
+    letter-spacing: 1.4px;
+}
+
+.top-brand span {
+    color: var(--gold);
+}
+
+.logout-btn {
+    padding: 8px 11px;
+    border: 1px solid rgba(245,196,81,.3);
+    border-radius: 7px;
+    background: rgba(245,196,81,.05);
+    color: var(--gold);
+    font-size: .6rem;
+    font-weight: 900;
+    letter-spacing: 1px;
+    cursor: pointer;
+}
+
+/* DASHBOARD LOGO */
+
+.dashboard-logo {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px auto 18px;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.dashboard-logo img {
+    display: block;
+    width: 90px;
+    height: 90px;
+    flex: 0 0 90px;
+    object-fit: contain;
+    border: 2px solid var(--gold);
+    border-radius: 50%;
+    background: #080808;
+    box-shadow: 0 0 0 5px rgba(245,196,81,.05),
+                0 0 22px rgba(245,196,81,.13);
+}
+
+/* DASHBOARD CONTENT */
+
+.scroll-content {
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+    padding-bottom: 10px;
+    scrollbar-width: none;
+}
+
+.scroll-content::-webkit-scrollbar {
+    display: none;
+}
+
+.pane {
+    display: none;
+}
+
+.pane.active {
+    display: block;
+    animation: fadeIn .25s ease both;
+}
+
+.key-card {
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 15px;
+    padding: 20px 14px;
+    border: 1px solid #39301c;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #17140e, #0d0d0d 75%);
+    text-align: center;
+}
+
+.key-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 15%;
+    width: 70%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+
+.key-label {
+    display: block;
+    margin-bottom: 10px;
+    color: var(--muted);
+    font-size: .58rem;
+    font-weight: 900;
+    letter-spacing: 2px;
+}
+
+.key-value {
+    display: inline-block;
+    max-width: 100%;
+    color: var(--gold-light);
+    font-family: monospace;
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+    overflow-wrap: anywhere;
+}
+
+.quick-links {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 11px;
+    margin-bottom: 15px;
+}
+
+.link-btn {
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 10px;
+    border: 1px solid #2d281d;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #15130f, #0e0e0e);
+    color: #fff;
+    font-size: .7rem;
+    font-weight: 800;
+    text-align: center;
+    text-decoration: none;
+}
+
+.link-btn:active {
+    border-color: var(--gold-dark);
+    background: #201b10;
+}
+
+.link-btn svg {
+    width: 25px;
+    height: 25px;
+    color: var(--gold);
+}
+
+/* SETTINGS */
+
+.set-item {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 11px;
+    padding: 14px;
+    border: 1px solid #2d281d;
+    border-radius: 11px;
+    background: linear-gradient(145deg, #15130f, #0e0e0e);
+    color: #fff;
+    text-align: left;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.set-item:active {
+    background: #201b10;
+}
+
+.set-icon {
+    width: 38px;
+    height: 38px;
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    border: 1px solid rgba(245,196,81,.1);
+    border-radius: 9px;
+    background: rgba(245,196,81,.09);
+    color: var(--gold);
+}
+
+.set-icon svg {
+    width: 19px;
+    height: 19px;
+}
+
+.set-body {
+    flex: 1;
+    min-width: 0;
+}
+
+.set-title {
+    display: block;
+    font-size: .76rem;
+    font-weight: 900;
+}
+
+.set-sub {
+    display: block;
+    margin-top: 4px;
+    color: var(--muted);
+    font-size: .62rem;
+}
+
+/* BOTTOM NAVIGATION */
+
+.nav-bar {
+    display: flex;
+    flex-shrink: 0;
+    gap: 9px;
+    margin-top: 13px;
+    padding: 6px;
+    border: 1px solid #292319;
+    border-radius: 12px;
+    background: #101010;
+}
+
+.nav-btn {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 12px 8px;
+    border: 1px solid transparent;
+    border-radius: 8px;
+    background: transparent;
+    color: #858585;
+    font-size: .68rem;
+    font-weight: 900;
+    cursor: pointer;
+}
+
+.nav-btn svg {
+    width: 18px;
+    height: 18px;
+}
+
+.nav-btn.active {
+    border-color: rgba(245,196,81,.2);
+    background: rgba(245,196,81,.09);
+    color: var(--gold-light);
+}
+
+/* RESPONSIVE FIXES */
+
+@media (max-height: 750px) {
+    #loginView {
+        padding-top: 12px;
+        padding-bottom: 12px;
+        gap: 12px;
+    }
+
+    .login-logo img {
+        height: 175px;
+    }
+
+    .subtitle {
+        margin-top: 10px;
+        font-size: .62rem;
+    }
+
+    .footer-text {
+        margin-top: 12px;
+    }
+}
+
+@media (max-height: 600px) {
+    #loginView {
+        gap: 8px;
+        padding-top: 6px;
+        padding-bottom: 6px;
+    }
+
+    .login-logo img {
+        height: 115px;
+    }
+
+    .subtitle {
+        margin-top: 6px;
+        font-size: .58rem;
+        letter-spacing: 1px;
+    }
+
+    .input-group input {
+        padding: 12px;
+    }
+
+    .btn-unlock {
+        min-height: 45px;
+        padding: 12px;
+        margin-bottom: 9px;
+    }
+
+    .free-key-btn {
+        min-height: 42px;
+        padding: 10px;
+    }
+
+    .footer-text {
+        margin-top: 8px;
+        font-size: .68rem;
+    }
+
+    .footer-text span {
+        margin-top: 2px;
+    }
+
+    .dashboard-logo {
+        margin-bottom: 10px;
+    }
+
+    .dashboard-logo img {
+        width: 72px;
+        height: 72px;
+        flex-basis: 72px;
+    }
+}
+
+@media (max-width: 340px) {
+    .app-container {
+        padding: 15px;
+    }
+
+    .login-logo img {
+        height: 175px;
+    }
+
+    .top-brand {
+        font-size: .8rem;
+    }
+}
+</style>
+</head>
+
+<body>
+<div class="app-container">
+
+    <!-- LOGIN VIEW -->
+    <section id="loginView" class="view active">
+
+        <div class="login-logo">
+            <img
+                src="https://img.sanishtech.com/u/be03a3988f8ce8b1acab5fcc6a842714.jpg"
+                alt="NIPEX VIP Logo"
+            >
+            <p class="subtitle">No Account. No Password. Just Your Key.</p>
+        </div>
+
+        <div class="login-form">
+            <form onsubmit="event.preventDefault(); login();">
+                <label class="input-label" for="accessKey">ACCESS KEY</label>
+
+                <div class="input-group">
+                    <input
+                        type="text"
+                        id="accessKey"
+                        placeholder="NIPEX-XXXX-XXXX-XXXX"
+                        autocomplete="off"
+                        spellcheck="false"
+                    >
+                </div>
+
+                <div class="error-msg" id="errorMsg"></div>
+
+                <button type="submit" class="btn-unlock" id="unlockBtn">
+                    UNLOCK
+                </button>
+            </form>
+
+            <a
+                class="free-key-btn"
+                href="https://vplinks.in/riGW6I"
+                target="_blank"
+                rel="noopener noreferrer"
+            >GET FREE KEY</a>
+
+            <a
+                class="setup-video-btn"
+                href="https://t.me/backupnipex/9"
+                target="_blank"
+                rel="noopener noreferrer"
+            >▶ WATCH SETUP VIDEO ON TELEGRAM</a>
+
+            <div class="footer-text">
+                no key? contact your seller.
+                <span>your time starts when you connect.</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- DASHBOARD VIEW -->
+    <section id="dashView" class="view">
+
+        <div class="top-bar">
+            <span class="status"><i class="dot"></i> ONLINE</span>
+            <span class="top-brand">NIPEX <span>VIP</span></span>
+            <button class="logout-btn" onclick="logout()">LOGOUT</button>
+        </div>
+
+        <div class="dashboard-logo">
+            <img
+                src="https://img.sanishtech.com/u/be03a3988f8ce8b1acab5fcc6a842714.jpg"
+                alt="NIPEX VIP Logo"
+            >
+        </div>
+
+        <div class="scroll-content">
+
+            <!-- HOME -->
+            <div id="homePane" class="pane active">
+
+                <div class="key-card">
+                    <span class="key-label">YOUR ACCESS KEY</span>
+                    <span class="key-value" id="displayKey">—</span>
+                </div>
+
+                <div class="quick-links">
+                    <a
+                        href="https://play.google.com/store/apps/details?id=com.happproxy"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-btn"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                            <path d="M7 10l5 5 5-5"/>
+                            <path d="M12 15V3"/>
+                        </svg>
+                        Happ App
+                    </a>
+
+                    <a
+                        href="https://t.me/nipex_lag"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="link-btn"
+                    >
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21.5 3.2 2.9 10.4c-.9.35-.87 1.62.04 1.93l4.6 1.55 1.75 5.35c.26.8 1.3.96 1.8.27l2.4-3.3 4.6 3.4c.7.52 1.7.14 1.87-.72l3-14.1c.2-.94-.73-1.75-1.46-1.53Z"/>
+                        </svg>
+                        Telegram
+                    </a>
+                </div>
+
+                <button
+                    class="btn-unlock"
+                    id="subBtn"
+                    onclick="addSubscription(this)"
+                    style="margin-bottom:0;"
+                >ADD SUBSCRIPTION</button>
+            </div>
+
+            <!-- SETTINGS -->
+            <div id="settingsPane" class="pane">
+
+                <button class="set-item" onclick="copyKey()">
+                    <div class="set-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="9" y="9" width="12" height="12" rx="2.5"/>
+                            <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+                        </svg>
+                    </div>
+                    <div class="set-body">
+                        <span class="set-title">Copy Access Key</span>
+                        <span class="set-sub" id="copyStatus">Tap to copy</span>
+                    </div>
+                </button>
+
+                <a
+                    class="set-item"
+                    href="https://vplinks.in/riGW6I"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    <div class="set-icon">✦</div>
+                    <div class="set-body">
+                        <span class="set-title">Get Free Key</span>
+                        <span class="set-sub">Open the free key page</span>
+                    </div>
+                </a>
+
+                <button class="set-item" onclick="logout()">
+                    <div class="set-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+                            <path d="M16 17l5-5-5-5"/>
+                            <path d="M21 12H9"/>
+                        </svg>
+                    </div>
+                    <div class="set-body">
+                        <span class="set-title">Logout</span>
+                        <span class="set-sub">Clear session</span>
+                    </div>
+                </button>
+
+            </div>
+        </div>
+
+        <!-- BOTTOM NAVIGATION -->
+        <nav class="nav-bar">
+            <button class="nav-btn active" id="navHome" onclick="showTab('home')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 10.5 12 3l9 7.5"/>
+                    <path d="M5.5 9.5V20a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1V9.5"/>
+                    <path d="M9.5 21v-6h5v6"/>
+                </svg>
+                Home
+            </button>
+
+            <button class="nav-btn" id="navSettings" onclick="showTab('settings')">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M4 21v-6M4 9V3M12 21v-9M12 6V3M20 21v-4M20 11V3"/>
+                    <path d="M1.5 15h5M9.5 6h5M17.5 17h5"/>
+                </svg>
+                Settings
+            </button>
+        </nav>
+    </section>
+</div>
+
+<script>
+/* ================= CONFIG ================= */
+const ACCESS_CONFIG_URL = 'https://raw.githubusercontent.com/nipex-lag/Nipex-test/main/access-control.json';
+const targetUrl = 'https://raw.githubusercontent.com/HuSKNE/Faraz-js/refs/heads/main/FarazPlayZ.json';
+const STORAGE_KEY = 'nipex_vip_session_v2';
+const HAPP_PACKAGE = 'com.happproxy';
+const TELEGRAM_LINK = 'https://t.me/nipex_lag';
+const SESSION_MS = 24 * 60 * 60 * 1000;
+const RECHECK_MS = 30 * 1000;
+let accessConfig = null;
+let sessionCheckTimer = null;
+let activeKeyHash = null;
+
+/* ================= ELEMENTS ================= */
+const loginView = document.getElementById('loginView');
+const dashView = document.getElementById('dashView');
+const keyInput = document.getElementById('accessKey');
+const errorMsg = document.getElementById('errorMsg');
+const displayKey = document.getElementById('displayKey');
+const homePane = document.getElementById('homePane');
+const settingsPane = document.getElementById('settingsPane');
+const navHome = document.getElementById('navHome');
+const navSettings = document.getElementById('navSettings');
+const copyStatus = document.getElementById('copyStatus');
+
+/* ================= REMOTE KEY + 24H SESSION ================= */
+async function sha256Hex(value) {
+    const bytes = new TextEncoder().encode(value.trim().toUpperCase());
+    const digest = await crypto.subtle.digest('SHA-256', bytes);
+    return Array.from(new Uint8Array(digest), b => b.toString(16).padStart(2, '0')).join('');
+}
+
+async function fetchAccessConfig() {
+    const response = await fetch(ACCESS_CONFIG_URL + '?v=' + Date.now(), { cache: 'no-store' });
+    if (!response.ok) throw new Error('Access settings unavailable');
+    const cfg = await response.json();
+    if (cfg.enabled !== true || typeof cfg.keyHash !== 'string' || !/^[a-f0-9]{64}$/i.test(cfg.keyHash)) {
+        throw new Error('Access disabled or configuration invalid');
+    }
+    accessConfig = cfg;
+    return cfg;
+}
+
+/* ================= LOGIN LOGIC ================= */
+async function login() {
+    const key = keyInput.value.trim().toUpperCase();
+    if (!key) { showError('PLEASE ENTER YOUR ACCESS KEY'); return; }
+    const btn = document.getElementById('unlockBtn');
+    btn.disabled = true;
+    btn.textContent = 'VERIFYING...';
+    try {
+        const cfg = await fetchAccessConfig();
+        const enteredHash = await sha256Hex(key);
+        if (enteredHash !== cfg.keyHash.toLowerCase()) {
+            showError('INVALID KEY');
+            keyInput.value = '';
+            return;
+        }
+        const session = { keyHash: enteredHash, expiresAt: Date.now() + SESSION_MS };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(session));
+        errorMsg.classList.remove('show');
+        activeKeyHash = enteredHash;
+        startSessionMonitor();
+        openDashboard(key);
+    } catch (e) {
+        showError('CANNOT VERIFY KEY. CHECK INTERNET AND TRY AGAIN.');
+    } finally {
+        btn.disabled = false;
+        btn.textContent = 'UNLOCK';
+    }
+}
+
+function showError(msg) {
+    errorMsg.textContent = msg;
+    errorMsg.classList.add('show');
+}
+keyInput.addEventListener('input', () => errorMsg.classList.remove('show'));
+
+function openDashboard(key) {
+    displayKey.textContent = key;
+    showTab('home');
+    loginView.classList.remove('active');
+    dashView.classList.add('active');
+}
+
+function lockSession(message) {
+    if (sessionCheckTimer) clearInterval(sessionCheckTimer);
+    sessionCheckTimer = null;
+    try { localStorage.removeItem(STORAGE_KEY); } catch (e) {}
+    activeKeyHash = null;
+    keyInput.value = '';
+    dashView.classList.remove('active');
+    loginView.classList.add('active');
+    if (message) showError(message);
+}
+
+function logout() { lockSession(''); }
+
+async function validateStoredSession() {
+    let session;
+    try { session = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (e) { session = null; }
+    if (!session || !session.keyHash || !session.expiresAt || Date.now() >= session.expiresAt) {
+        lockSession('SESSION EXPIRED — ENTER THE CURRENT KEY');
+        return false;
+    }
+    try {
+        const cfg = await fetchAccessConfig();
+        if (cfg.keyHash.toLowerCase() !== session.keyHash.toLowerCase()) {
+            lockSession('KEY UPDATED — ENTER THE NEW KEY');
+            return false;
+        }
+        activeKeyHash = session.keyHash;
+        openDashboard('••••••••••');
+        return true;
+    } catch (e) {
+        lockSession('CANNOT VERIFY ACCESS — CHECK INTERNET');
+        return false;
+    }
+}
+
+function startSessionMonitor() {
+    if (sessionCheckTimer) clearInterval(sessionCheckTimer);
+    sessionCheckTimer = setInterval(async () => {
+        let session;
+        try { session = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null'); } catch (e) { session = null; }
+        if (!session || Date.now() >= session.expiresAt) {
+            lockSession('SESSION EXPIRED — ENTER THE CURRENT KEY');
+            return;
+        }
+        try {
+            const cfg = await fetchAccessConfig();
+            if (cfg.keyHash.toLowerCase() !== session.keyHash.toLowerCase()) {
+                lockSession('KEY UPDATED — ENTER THE NEW KEY');
+            }
+        } catch (e) {
+            lockSession('CANNOT VERIFY ACCESS — CHECK INTERNET');
+        }
+    }, RECHECK_MS);
+}
+
+window.addEventListener('focus', () => {
+    if (localStorage.getItem(STORAGE_KEY)) validateStoredSession().then(ok => { if (ok) startSessionMonitor(); });
+});
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && localStorage.getItem(STORAGE_KEY)) validateStoredSession().then(ok => { if (ok) startSessionMonitor(); });
+});
+
+/* ================= TAB SWITCHING ================= */
+function showTab(tab) {
+    const isHome = tab === 'home';
+
+    homePane.classList.toggle('active', isHome);
+    settingsPane.classList.toggle('active', !isHome);
+    navHome.classList.toggle('active', isHome);
+    navSettings.classList.toggle('active', !isHome);
+
+    document.querySelector('.scroll-content').scrollTop = 0;
+}
+
+/* ================= COPY KEY ================= */
+function copyKey() {
+    const key = displayKey.textContent.trim();
+
+    navigator.clipboard.writeText(key).then(() => {
+        copyStatus.textContent = '✔ Copied to clipboard';
+        copyStatus.style.color = '#00ff88';
+
+        setTimeout(() => {
+            copyStatus.textContent = 'Tap to copy';
+            copyStatus.style.color = '';
+        }, 2000);
+    });
+}
+
+/* ================= ADD SUBSCRIPTION ================= */
+function addSubscription(btn) {
+    const original = btn.textContent;
+    btn.textContent = 'OPENING HAPP...';
+    btn.disabled = true;
+
+    const happLink = 'happ://add/' + targetUrl;
+    const intentLink =
+        'intent://add/' + targetUrl +
+        '#Intent;scheme=happ;package=' + HAPP_PACKAGE + ';end;';
+
+    let appOpened = false;
+
+    document.addEventListener('visibilitychange', function handler() {
+        if (document.hidden) appOpened = true;
+    }, { once: true });
+
+    window.location.href = happLink;
+
+    setTimeout(() => {
+        if (!appOpened && !document.hidden) {
+            window.location.href = intentLink;
+        }
+    }, 1000);
+
+    setTimeout(() => {
+        btn.textContent = original;
+        btn.disabled = false;
+    }, 2500);
+}
+
+/* ================= AUTO LOGIN ================= */
+(async function autoLogin() {
+    let saved = false;
+    try { saved = !!localStorage.getItem(STORAGE_KEY); } catch (e) {}
+    if (saved) {
+        const ok = await validateStoredSession();
+        if (ok) startSessionMonitor();
+    }
+})();
+</script>
+
+</body>
+</html>

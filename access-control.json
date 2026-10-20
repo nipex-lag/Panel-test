@@ -1,0 +1,7 @@
+{
+  "enabled": true,
+  "keyHash": "a072c354125c07f63e7f0844a1fddfeed4764522e278665472934d89f09baeae",
+  "sessionHours": 24,
+  "updatedAt": "2026-10-20T00:00:00Z",
+  "note": "Rotate key by replacing keyHash with SHA-256 of the new key in uppercase. Set enabled=false to disable all logins."
+}
